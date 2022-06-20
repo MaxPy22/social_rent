@@ -1,3 +1,4 @@
-h1 {border-bottom: 3px solid red; }
-body {background-color: wheat;}
-main .container {background-color: rgba(255, 255, 255, 0.8);}
+h1 {border-bottom: 10px solid rgb(187, 170, 170); }
+body {background-color: rgb(149, 190, 236);}
+main {background-color: rgba(179, 176, 228, 0.8);}
+.navbar-dark {background-color: rgba(99, 30, 30, 0.85);}

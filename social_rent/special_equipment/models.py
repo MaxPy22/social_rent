@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 
+
 # Create your models here.
 class Category(models.Model): # priemoniu kategorijos
     category_title = models.CharField('Spec. priemonių kategorijos', max_length=156, help_text='nurodyti kateogoriją (pvz. judėjimo, higienos reikmenys ir t.t.)')
@@ -40,7 +41,6 @@ class EquipmentModel(models.Model): # turimu priemoniu konkretus modeliai
     def __str__(self):
         return f'{str(self.type)} - {self.model_name}'
 
-
     class Meta:
         ordering = ['model_name']
         verbose_name = 'spec. priemonės modelis'
@@ -59,6 +59,7 @@ class EquipmentUnit(models.Model): # turimu priemoniu apskaitiniai vienetai
     equipment_model = models.ForeignKey(EquipmentModel, on_delete=models.PROTECT, null=True, related_name='equipment_units', verbose_name='spec. priemonė')
     category = models.ForeignKey(Category, on_delete=models.PROTECT, null=True, related_name='equipment_units', verbose_name='kategorija')    
 
+
     AVAILABILITY = (
         ('ok', 'sandėlyje/prieinama'),
         ('p', 'paimta'),
@@ -72,9 +73,6 @@ class EquipmentUnit(models.Model): # turimu priemoniu apskaitiniai vienetai
     def __str__(self):
         return f'{str(self.equipment_model.model_name)} - {str(self.id)}'
 
-    # def show_categories(self):
-    #     return ', '.join(category.category_title for category in self.category.all()[:5])
-    # show_categories.short_description = ('kategorijos')
 
 
     class Meta:
