@@ -1,0 +1,12 @@
+{% extends 'special_equipment/base.html' %}
+{% block content %}
+<div class="container"> 
+    <h1>VŠĮ "Neįgaliųjų centras"</h1>
+
+    <h3>Mes turime</h3>
+    <ul>
+        <li>Įvairios įrangos ir priemonių neįgaliesiems <strong>{{ num_units }}</strong></li>
+        <li>Šiuo metu laisva (galima paimti) <strong>{{ num_units_available }}</strong></li>
+    </ul>
+</div>
+{% endblock content %}
