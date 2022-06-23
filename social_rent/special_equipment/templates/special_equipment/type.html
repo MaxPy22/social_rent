@@ -1,0 +1,21 @@
+{% extends 'special_equipment/base.html' %}
+{% block content %}
+    <div class="container py-3">
+        <h1>{{ type }}</h1>
+        {% if type.description %}
+        <p>{{ type.description }}</p>
+        {% endif %}
+        <h2>Turima įranga ir spec. priemonės</h2>
+        <div class="list-group">
+        {% for equipment_model in type.equipment_models.all %}
+        <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{% url 'equipmenturl' equipment_model.id %}">
+                <span class="flex-grow-1">{{ equipment_model.model_name }}</span>
+                <span class="badge badge-dark badge-pill ml-1">įrangos kiekis: {{ equipment_models.equipment_units.count }}</span>
+                <span class="badge badge-success badge-pill ml-1">prieinamų: {{ equipment_models.get_available_units }}</span>
+            </a>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
+
+{% block title %}{{ type }} | {{ block.super }}{% endblock title %}

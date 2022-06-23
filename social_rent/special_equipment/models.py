@@ -1,11 +1,6 @@
 from django.db import models
 import uuid
 
-# from django.contrib.auth.models import User
-# from django.utils.translation import gettext_lazy as _
-# from datetime import date
-# import uuid
-# from tinymce.models import HTMLField
 
 # Create your models here.
 class Category(models.Model): # priemoniu kategorijos
@@ -19,8 +14,11 @@ class Category(models.Model): # priemoniu kategorijos
         verbose_name = 'Spec. priemonės kategorija'
         verbose_name_plural = 'spec. priemonių kategorijos'
 
+
 class Type(models.Model): # priemoniu rusys, tipai
     type_title = models.CharField(('rūšis'), max_length=156, help_text='nurodyti konkrečią rūšį (pvz. neigaliojo vežimėlis, funkcinė lova ir pan.)')
+    description = models.CharField(('aprasymas laikinas'), max_length=156, help_text='rusies aprasymas?', default="rusies aprasymas nepateiktas")
+    # description = HTMLField(_('pagrindinė paskirtis'), blank=True, null=True)
     category = models.ManyToManyField(Category, verbose_name='Kategorija', related_name='types', help_text='nurodykit priemonės kategoriją')
 
     def __str__(self):
@@ -40,6 +38,7 @@ class Type(models.Model): # priemoniu rusys, tipai
 class EquipmentModel(models.Model): # turimu priemoniu konkretus modeliai
     model_name = models.CharField('gaminio modelio pavadinimas', max_length=156)
     description = models.TextField('trumpas aprašymas/pagrindinės modelio savybės', max_length=1000, default='informacija tikslinama')
+    # describe = HTMLField(_('gaminio aprašymas'), help_text=_('svarbiausia informacija apie gaminį'))
     # image = models.ImageField(_('gaminio foto'), upload_to='apps/images', null=True, blank=True)
     type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True, related_name='equipment_models', verbose_name='priemonės rūšis')
     category = models.ManyToManyField(Category, related_name='equipment_models', verbose_name='Kategorija', help_text='nurodykit priemonės kategoriją')
@@ -61,11 +60,13 @@ class EquipmentModel(models.Model): # turimu priemoniu konkretus modeliai
     get_availabile_units.short_description = ('laisvų priemonių kiekis')
 
 class EquipmentUnit(models.Model): # turimu priemoniu apskaitiniai vienetai
+    # inventory_number = models.UUIDField('inventorinis numeris', primary_key=True, default=uuid.uuid4, help_text='apskaitomam priemonės vienetui suteiktas unikalus inventorinis numeris', editable=False)
     id = models.UUIDField('inventorinis numeris', primary_key=True, default=uuid.uuid4, help_text='apskaitomam priemonės vienetui suteiktas unikalus inventorinis numeris', editable=False)
     notes = models.CharField(('pastabos'), max_length=224, null=True, default='-')
     returning_date = models.DateField('perduota iki: ', null=True, blank=True, db_index=True)
     equipment_model = models.ForeignKey(EquipmentModel, on_delete=models.PROTECT, null=True, related_name='equipment_units', verbose_name='spec. priemonė')
     # category = models.ForeignKey(Category, on_delete=models.PROTECT, null=True, related_name='equipment_units', verbose_name='kategorija')    
+
 
     AVAILABILITY = (
         ('ok', 'sandėlyje/prieinama'),
@@ -79,6 +80,8 @@ class EquipmentUnit(models.Model): # turimu priemoniu apskaitiniai vienetai
     
     def __str__(self):
         return f'{str(self.equipment_model.model_name)} - {str(self.id)}'
+
+
 
     class Meta:
         # ordering = ['returning_date']

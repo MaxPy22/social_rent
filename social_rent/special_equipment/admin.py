@@ -24,8 +24,8 @@ class EquipmentModelAdmin(admin.ModelAdmin):
 
 
 class EquipmentUnitAdmin(admin.ModelAdmin):
-    list_display = ('equipment_model', 'id', 'status', 'returning_date', 'notes')
-    list_filter = ('status', 'returning_date', )
+    list_display = ('equipment_model', 'id', 'status', 'returning_date', 'notes', )
+    list_filter = ('status','returning_date', )
     search_fields = ('id', 'equipment_model__model_name', )
     readonly_fields = ('id', )
     list_editable = ('status', 'returning_date', )  # leidzia redaguoti isrinktus laukus prie bendro elementu saraso
@@ -33,13 +33,11 @@ class EquipmentUnitAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Pagrindinė Informacija', {'fields': (
                 # 'id', 
-                'equipment_model',
-
+                'equipment_model', 
 
             )}),
         ('Prieinamumas', {'fields': (
-                'status', 
-                'returning_date', 
+                ('status', 'returning_date'), 
                 'notes',
             )}),
     )

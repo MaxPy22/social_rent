@@ -1,8 +1,17 @@
-from django.urls import path
+from django.urls import include, path
 from . import views
 
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('special_equipment/<int:equipmentmodel_id>/', views.equipmentmodel, name='equipmentmodel'),
+    # path('equipmentmodel', views.equipmentmodel, name='equipmentmodel'),
+    path('type/<int:type_id>/', views.type, name='typeurl'),
+
+    # path('equipmentmodels/<int:equipmentmodel_id>/', views.equipmentmodels, name='equipmentmodels'),
+    path('types/', views.types , name='typesurl'),
+
+    path('equipmentmodels/', views.EquipmentModelsListView.as_view() , name='equipmentmodelsurl'),
+    
+    # path('equipmentmodeldetails/', views.EquipmentModelDetailView.as_view() , name='modeldetails'),
+    path('equipmentmodel/<int:pk>/', views.EquipmentModelDetailView.as_view(), name='equipmentmodelurl'),
 ]
