@@ -17,13 +17,17 @@
             {% endif %}
 
         </div>
-        {#
-    {% if book.cover %}
-        <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{{ book.cover.url }}">
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px--mb-3 bg-danger border bottom shadow-sm">
+        <strong> desim paveiksleli</strong> 
+        </div>
+
+        {% comment %}
+    {% if equipmentmodel.pic %}
+        <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{{ equipmentmodel.pic.url }}">
     {% else %}
-        <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{% static 'books/img/vibrant-abstract-book-cover.jpg' %}">
+        <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{% static 'special_equipment/img/pav.jpg' %}">
     {% endif %}
-    #}
+    {% endcomment %}
     <p>{{ equipmentmodel.summary|safe }}</p>
 
     <h3> Ar yra galimybė gauti "{{ equipmentmodel.model_name }}"? </h3>

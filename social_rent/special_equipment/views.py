@@ -82,11 +82,11 @@ class EquipmentModelsListView(generic.ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.GET.get('search'):
-            search = self.request.GET.get('search')
+        if self.request.GET.get('searchname'):
+            search = self.request.GET.get('searchname')
             queryset = queryset.filter(
                 Q(model_name__icontains=search) |
-                Q(summary__icontains=search) |
+                # Q(summary__icontains=search) |
                 Q(type__type_title__istartswith=search)
             )
         return queryset

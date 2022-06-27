@@ -62,9 +62,9 @@ class EquipmentModel(models.Model): # turimu priemoniu konkretus modeliai
         return ', '.join(category.category_title for category in self.category.all()[:5])
     show_categories.short_description = ('kategorijos')
 
-    def get_availabile_units(self):
+    def get_available_units(self):
         return self.equipment_units.filter(status__exact='ok').count()
-    get_availabile_units.short_description = ('laisvų priemonių kiekis')
+    get_available_units.short_description = ('laisvų priemonių kiekis')
 
 
 class EquipmentUnit(models.Model): # turimu priemoniu apskaitiniai vienetai

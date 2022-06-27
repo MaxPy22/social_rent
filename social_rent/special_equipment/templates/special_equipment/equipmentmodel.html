@@ -14,7 +14,7 @@
             
                 <span class="flex-grow-1">{{ equipment_unit.model_name }}</span>
                 <span class="badge badge-dark badge-pill ml-1">įrangos kiekis: {{ equipment_unit.equipment_units.count }}</span>
-                <span class="badge badge-success badge-pill ml-1">prieinamų: {{ equipment_unit.get_available_units.count }}</span>
+                <span class="badge badge-success badge-pill ml-1">prieinamų: {{ equipment_unit.get_available_units }}</span>
             </a>
         {% endfor %}
         </div>

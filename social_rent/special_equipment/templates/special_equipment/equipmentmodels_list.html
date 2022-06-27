@@ -3,7 +3,7 @@
 <div class="container py-3">
     <h1>Įrangos ir kitų priemonių modeliai</h1>
     <form action="{% url 'equipmentmodelsurl' %}" method="get" class="d-flex mb-3">
-        <input type="text" name="search_model_name" value="{{ request.GET.search_model_name }}" placeholder="įveskite modelio pavadinimą..." class="flex-grow-1">
+        <input type="text" name="searchname" value="{{ request.GET.search }}" placeholder="įveskite modelio pavadinimą..." class="flex-grow-1">
         <button type="submit" class="btn btn-secondary ml-1">&#128269; ieškoti</button>
     </form>
     <div class="list-group">
@@ -11,13 +11,13 @@
         <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{% url 'equipmentmodelurl' model.id %}">
             <span class="flex-grow-1">{{ model }}</span>
             <span class="badge badge-dark badge-pill ml-1">viso modelių: {{ model.equipment_units.count }}</span>
-            <span class="badge badge-success badge-pill ml-1">prieinamų: {{ model.get_available_unit }}</span>
+            <span class="badge badge-success badge-pill ml-1">prieinamų: {{ model.get_available_units }}</span>
         </a>
         <div class="list-group-item small pt-1 bg-light">
             {% if model.category.count > 0 %}
                 <span class="flex-shrink-1">Kategorijos:</span>
-                {% for category in model.category.all %}
-                    <span class="badge badge-pill ml-1" style="background-color: rgb(179, 191, 245);">{{ category }}</span>
+                {% for kategorija in model.category.all %}
+                    <span class="badge badge-pill ml-1" style="background-color: rgb(179, 191, 245);">{{ kategorija }}</span>
                 {% endfor %}
             {% else %}
                 <span class="flex-shrink-1">Nėra/nepriskirta jokiai kategorijai</span>
