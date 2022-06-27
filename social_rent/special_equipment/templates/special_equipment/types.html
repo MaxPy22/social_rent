@@ -6,8 +6,8 @@
     <div class="list-group my-3">
     {% for type in types %}
         <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{% url 'typeurl' type.id %}">
-            {{ category_title }}
-            <span class="badge badge-dark badge-pill">šios kategorijos: {{ equipment_models.get_models_count }}</span>
+        {{ type }}
+            <span class="badge badge-dark badge-pill">šios rūšies: {{ type.get_models_count }}</span>
         </a>
     {% endfor %}
     </div>

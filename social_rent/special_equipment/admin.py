@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Type, EquipmentModel, EquipmentUnit
+from .models import Category, Type, EquipmentModel, EquipmentUnit, EquipmentModelComment
 
 
 # class CategoryAdmin(admin.ModelAdmin):
@@ -24,26 +24,26 @@ class EquipmentModelAdmin(admin.ModelAdmin):
 
 
 class EquipmentUnitAdmin(admin.ModelAdmin):
-    list_display = ('equipment_model', 'id', 'status', 'returning_date', 'notes', )
+    list_display = ('equipment_model', 'id', 'status', 'returning_date', 'notes', 'patient')
     list_filter = ('status','returning_date', )
-    search_fields = ('id', 'equipment_model__model_name', )
+    search_fields = ('equipment_model__model_name', 'patient__username' )
     readonly_fields = ('id', )
     list_editable = ('status', 'returning_date', )  # leidzia redaguoti isrinktus laukus prie bendro elementu saraso
 
     fieldsets = (
         ('Pagrindinė Informacija', {'fields': (
                 # 'id', 
-                'equipment_model', 
-
+                'equipment_model',
+                ('status', 'returning_date', )
             )}),
-        ('Prieinamumas', {'fields': (
-                ('status', 'returning_date'), 
-                'notes',
+        ('Kita informacija', {'fields': (
+                ('patient', 'notes',)
             )}),
-    )
+)
 
 
 admin.site.register(Category)
 admin.site.register(Type, TypeAdmin)
 admin.site.register(EquipmentModel, EquipmentModelAdmin)
 admin.site.register(EquipmentUnit, EquipmentUnitAdmin)
+admin.site.register(EquipmentModelComment)

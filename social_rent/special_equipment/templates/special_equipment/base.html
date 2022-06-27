@@ -22,12 +22,37 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Pradžia</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'equipmentmodelsurl' %}">Visi modeliai</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'typesurl' %}">Visos rūšys</a></li>
+
+                        {% if request.user.is_authenticated %}
+                        
+                        <li class="nav-item"><span class="nav-link">   &#129333; Jūs prisijungęs kaip {{ user.username }}</span></li>
+                        {% if user.is_superuser or user.is_staff %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Labas, admine!</a></li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}?next=/special_equipment"> &#10060; atsijungti </a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}?next={{ request.path }}"> &#128681; Prisijungti</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}"> &#10145; Registruotis</a></li>
+                        
+                        {% endif %}
+
                     {% endblock navigation %}</ul>
                 </div>
             </div>
         </nav>
     </header> {# meniu pabaiga #}
-    <main>{% block content %}{% endblock content %}</main> {# komentaro vieta #}
+    <main>
+        <main>
+            {% block messages %}
+            <div class="container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            </div>
+            {% endblock messages %}
+    {% block content %}{% endblock content %}</main> {# komentaro vieta #}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 </body>
 </html>

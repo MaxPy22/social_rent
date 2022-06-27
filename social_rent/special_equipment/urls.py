@@ -14,4 +14,8 @@ urlpatterns = [
     
     # path('equipmentmodeldetails/', views.EquipmentModelDetailView.as_view() , name='modeldetails'),
     path('equipmentmodel/<int:pk>/', views.EquipmentModelDetailView.as_view(), name='equipmentmodelurl'),
+
+    path('my_equpments/', views.LoanedEquipmentByPation.as_view(), name='my_equpmentsurl'),
+
+    path('register/', views.register, name='register'),
 ]
