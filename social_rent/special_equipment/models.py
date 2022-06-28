@@ -41,7 +41,7 @@ class Type(models.Model): # priemoniu rusys/tipai
 class EquipmentModel(models.Model): # turimu priemoniu konkretus modeliai
     model_name = models.CharField('gaminio modelio pavadinimas', max_length=156)
     description = HTMLField('arašymas,pagrindinės modelio savybės', help_text='svarbiausia informacija apie gaminį', default='informacija tikslinama')
-    # image = models.ImageField(_('gaminio foto'), upload_to='apps/images', null=True, blank=True)
+    pic = models.ImageField('gaminio foto', upload_to='special_equipment/pics', null=True, blank=True)
     type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True, related_name='equipment_models', verbose_name='priemonės rūšis')
     category = models.ManyToManyField(Category, related_name='equipment_models', verbose_name='Kategorija', help_text='nurodykit priemonės kategoriją')
 
@@ -80,6 +80,9 @@ class EquipmentUnit(models.Model): # turimu priemoniu apskaitiniai vienetai
     )
 
     status = models.CharField('prieinamumas', max_length=2, choices=AVAILABILITY, blank=True, default='ok', db_index=True)
+
+    # def patient_name(self):
+    #     return self.patient.first_name
     
     def __str__(self):
         return f'{str(self.equipment_model.model_name)} - {str(self.id)}'

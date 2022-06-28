@@ -16,10 +16,17 @@
                 <span class="flex-shrink-1">Kategorija neapibrėžta</span>
             {% endif %}
         </div>
-        <div class="d-flex flex-column flex-md-row align-items-center p-3 px--mb-3 bg-danger border bottom shadow-sm">
-        <strong> desim paveiksleli</strong> 
-        </div>
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px--mb-3 bg-rgba(179, 176, 228, 0.8) border bottom shadow-sm">
+        
+        {% if equipmentmodel.pic %}
+            <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{{ equipmentmodel.pic.url }}">
+        {% else %}
+            <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{% static 'special_equipment/img/default-pic.png' %}">
+        {% endif %}
+    
 
+
+        </div>
 
         {% comment %}
     {% if equipmentmodel.pic %}

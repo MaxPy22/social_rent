@@ -21,7 +21,16 @@ class EquipmentModelAdmin(admin.ModelAdmin):
 
 
 class EquipmentUnitAdmin(admin.ModelAdmin):
-    list_display = ('equipment_model', 'id', 'status', 'returning_date', 'notes', 'patient')
+
+    # def user_details(*args, **kwargs):
+    #     user_info = self.request.user
+
+    # def get_queryset(self):
+    #     user_info = super().get_queryset().self.request.user.full_name
+
+    
+
+    list_display = ('equipment_model', 'id', 'status', 'returning_date', 'notes', 'patient', ) # 'get_name') # 'patient')
     list_filter = ('status','returning_date', )
     search_fields = ('equipment_model__model_name', 'patient__username' )
     readonly_fields = ('id', )
@@ -37,6 +46,8 @@ class EquipmentUnitAdmin(admin.ModelAdmin):
             )}),
 )
 
+    # def get_name(self, obj): # funkciją gali vadint kaip nori, svarbu būtų self ir obj
+    #     return obj.patient.first_name # čia turi nurodyti tikslų kelią iki paciento vardo
 
 admin.site.register(Category)
 admin.site.register(Type, TypeAdmin)
