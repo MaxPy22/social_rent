@@ -2,14 +2,11 @@ from django.contrib import admin
 from .models import Category, Type, EquipmentModel, EquipmentUnit, EquipmentModelComment
 
 
-# class CategoryAdmin(admin.ModelAdmin):
-#     list_display = ('category_title', )
-
-
 class TypeAdmin(admin.ModelAdmin):
     list_display = ('type_title', 'get_models_count', )
     list_display_links = ('type_title', )
     search_fields = ('type_title', ) #, 'category', )
+
 
 class EquipmentUnitInline(admin.TabularInline):
     model = EquipmentUnit
@@ -19,7 +16,7 @@ class EquipmentUnitInline(admin.TabularInline):
 
 class EquipmentModelAdmin(admin.ModelAdmin):
     list_display = ('id', 'model_name', 'description', 'type', 'show_categories', )
-    list_filter = ('type', 'category', ) # , 'show_categories', )
+    list_filter = ('type', 'category', )
     inlines = (EquipmentUnitInline, )
 
 
@@ -32,7 +29,6 @@ class EquipmentUnitAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Pagrindinė Informacija', {'fields': (
-                # 'id', 
                 'equipment_model',
                 ('status', 'returning_date', )
             )}),

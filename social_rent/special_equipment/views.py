@@ -10,6 +10,8 @@ from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_protect
 from .forms import EquipmentModelReviewForm
 
+# from .forms import ModelReviewForm
+
 @csrf_protect
 def register(request):
     if request.method == "POST":
@@ -48,29 +50,15 @@ def index(request):
 
     return render(request, 'special_equipment/index.html', context)
 
-
 def types(request):
     paginator = Paginator(Type.objects.all(), 4)
     page_number = request.GET.get('page')
     types = paginator.get_page(page_number)
     return render(request, 'special_equipment/types.html', {'types': types})
 
-def type(request, type_id): ## equipmentmodel.html - nepabaigta
+def type(request, type_id): 
     type = get_object_or_404(Type, pk=type_id)
     return render(request, 'special_equipment/type.html', {'type': type})
-
-
-# # 
-# def equipmentmodel(request, equipmentmodel_id): ## equipmentmodel.html - nepabaigta
-#     equipmentmodel = get_object_or_404(EquipmentModel, pk=equipmentmodel_id)
-#     return render(request, 'special_equipment/equipmentmodel.html', {'equipmentmodel': equipmentmodel})
-
-# def equipmentmodels(request):
-#     paginator = Paginator(EquipmentModel.objects.all(), 5)
-#     page_number = request.GET.get('page')
-#     equipmentmodels = paginator.get_page(page_number)
-#     return render(request, 'special_equipment/equipmentmodels.html', {'equipmentmodels': equipmentmodels})
-##
 
 
 class EquipmentModelsListView(generic.ListView):
@@ -82,16 +70,16 @@ class EquipmentModelsListView(generic.ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.GET.get('searchname'):
-            search = self.request.GET.get('searchname')
+        if self.request.GET.get('search_name'):
+            search_text = self.request.GET.get('search_name')
             queryset = queryset.filter(
-                Q(model_name__icontains=search) |
+                Q(model_name__icontains=search_text) |
                 # Q(summary__icontains=search) |
-                Q(type__type_title__istartswith=search)
+                Q(type__type_title__icontains=search_text)
             )
         return queryset
 
-    def get_context_data(self, **kwargs): ## equipmentmodels_list 20 eilute - nebereikia
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({'spalva': 'wheat'})
         return context
@@ -118,7 +106,7 @@ class EquipmentModelDetailView(generic.DetailView, FormMixin):
         form.instance.commentator = self.request.user
         form.save()
         return super().form_valid(form)
-##
+
 
 class LoanedEquipmentByPation(LoginRequiredMixin, generic.ListView):
     model = EquipmentUnit

@@ -6,13 +6,6 @@
         <div class="list-group my-3">
         {% for equipmentmodel in equipmentmodels %}
             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{% url 'equipmentmodelсurl' equipmentmodel.id %}">
-
-
-                {#                {{ author }}
-                <span class="badge badge-dark badge-pill">knygų: {{ author.get_books_count }}</span>
-            #}
-
-
         </a>
         {% endfor %}
         </div>

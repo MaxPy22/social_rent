@@ -1,6 +1,6 @@
 {% extends 'special_equipment/base.html' %}
 {% load static %}
-{% block title %}{{ equipment_model.model_name }} | {{ block.super }}{% endblock title %}
+{% block title %}{{ equipmentmodel.model_name }} | {{ block.super }}{% endblock title %}
 
 {% block content %}
     <div class="container py-3">
@@ -8,18 +8,18 @@
         <a href="{% url 'typeurl' equipmentmodel.type.id %}"><h2>{{ equipmentmodel.type }}</h2></a>
         <div class="d-flex p-2 bg-light small">
             {% if equipmentmodel.category.count > 0 %}
-                <span class="flex-shrink-1">Kategorijos:</span>
+                <span class="flex-shrink-1"> <strong> Kategorijos: </strong> </span>
                 {% for kategorija in equipmentmodel.category.all %}
-                    <span class="badge badge-pill badge-secondary ml-1">{{ category }}</span>
+                    <span class="badge badge-pill badge-secondary ml-1">{{ kategorija }}</span>
                 {% endfor %}
             {% else %}
                 <span class="flex-shrink-1">Kategorija neapibrėžta</span>
             {% endif %}
-
         </div>
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px--mb-3 bg-danger border bottom shadow-sm">
         <strong> desim paveiksleli</strong> 
         </div>
+
 
         {% comment %}
     {% if equipmentmodel.pic %}
@@ -28,14 +28,15 @@
         <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{% static 'special_equipment/img/pav.jpg' %}">
     {% endif %}
     {% endcomment %}
-    <p>{{ equipmentmodel.summary|safe }}</p>
 
+
+    <p> <strong> Modelio aprašymas: </strong> {{ equipmentmodel.description|safe }}</p>
     <h3> Ar yra galimybė gauti "{{ equipmentmodel.model_name }}"? </h3>
-    {% if equipment_model.equipment_units.count > 0 %}
+    {% if equipmentmodel.equipment_units.count > 0 %}
         <div class="list-group">
-            {% for model_unit in equipment_model.equipment_units.all %}
+            {% for model_unit in equipmentmodel.equipment_units.all %}
             <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                <span class="flex-grow-1">{{ model_unit.id }}</span>
+                <span class="flex-grow-1"> Įrenginio numeris: {{ model_unit.id }}</span>
                 <span class="badge 
                 {% if model_unit.status == 'ok' %}badge-success
                 {% elif model_unit.status == 'kt' %}badge-secondary
@@ -51,14 +52,13 @@
     {% else %}
         <div class="alert alert-secondary">Dėl galimybės gauti šį modelį prašome teirautis telefonu</div>
     {% endif %}
-
     <h3>Atsiliepimai</h3>
-    {% if equipmentmodel.equipment_model_comments.count > 0%}
-        {% for comment in equipmentmodel.equipment_model_comments.all %}
+    {% if equipmentmodel.model_comments.count > 0%}
+        {% for comment in equipmentmodel.model_comments.all %}
         <div class="card">
             <div class="card-body">
                 <span class="text-muted float-right">{{ comment.created_at }}</span>
-                <h5 class="card-title">{{ comment.reviewer }}</h5>
+                <h5 class="card-title">{{ comment.commentator }}</h5>
                 {{ comment.content|safe }}
             </div>
         </div>
@@ -70,7 +70,7 @@
     <div class="FieldWrapper">
         <h4>Palikite Atsiliepimą</h4>
         <form method="post" action="">
-            {% csrf_token%}
+            {% csrf_token %}
             {{ form.content }}<br/>
             <input type="submit" value="išsaugoti" class="btn btn-primary">
         </form>
@@ -79,4 +79,3 @@
 
     </div>
 {% endblock content %}
-

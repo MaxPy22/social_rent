@@ -3,7 +3,7 @@
 <div class="container py-3">
     <h1>Įrangos ir kitų priemonių modeliai</h1>
     <form action="{% url 'equipmentmodelsurl' %}" method="get" class="d-flex mb-3">
-        <input type="text" name="searchname" value="{{ request.GET.search }}" placeholder="įveskite modelio pavadinimą..." class="flex-grow-1">
+        <input type="text" name="search_name" value="{{ request.GET.search_text }}" placeholder="įveskite modelio arba rūšies pavadinimą..." class="flex-grow-1">
         <button type="submit" class="btn btn-secondary ml-1">&#128269; ieškoti</button>
     </form>
     <div class="list-group">
@@ -27,3 +27,5 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block title %} Modeliai | {{ block.super }}{% endblock title %}s
