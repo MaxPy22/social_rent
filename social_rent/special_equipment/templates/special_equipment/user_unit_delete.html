@@ -1,0 +1,19 @@
+{% extends 'special_equipment/base.html' %}
+{% block content %}
+    <div class="container py-3">
+        <h1>Rezervacijos atšaukimas</h1>
+        <form method="post" action="">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                Ar tikrai norit atšaukti {{ object.equipment_model }} {{ object.id }} rezervaciją?
+            </fieldset>
+            <fieldset class="form-group">
+                <button class="btn btn-danger" type="submit">TAIP</button>
+                <a class="btn btn-success" href="{% url 'my_equipmenturl' object.id %}">NE, atgal</a>
+                <br>* šis veiksmas neleidžia tiesiog pasisąvinti arba sunaikinti įrenginio!
+            </fieldset>
+        </form>
+    </div>
+{% endblock content %}
+    
+{% block title %}Rezervacijos atšaukimas | {{ block.super }}{% endblock title %}

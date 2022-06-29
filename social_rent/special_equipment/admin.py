@@ -34,7 +34,7 @@ class EquipmentUnitAdmin(admin.ModelAdmin):
     list_filter = ('status','returning_date', )
     search_fields = ('equipment_model__model_name', 'patient__username' )
     readonly_fields = ('id', )
-    list_editable = ('status', 'returning_date', )  # leidzia redaguoti isrinktus laukus prie bendro elementu saraso
+    list_editable = ('status', 'returning_date', 'patient', )  # leidzia redaguoti isrinktus laukus prie bendro elementu saraso
 
     fieldsets = (
         ('Pagrindinė Informacija', {'fields': (

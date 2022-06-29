@@ -1,0 +1,25 @@
+{% extends 'special_equipment/base.html' %}
+{% block content %}
+    <div class="container py-3">
+        <h1>Mano paimtos priemonės</h1>
+        {% if equipmentunit_list %}
+            {% include 'special_equipment/includes/paginator.html' %}
+            <div class="list-group">
+                {% for unit in equipmentunit_list %}
+                <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{% url 'my_equipmenturl' unit.id %}">
+                    <span class="flex-grow-1">{{ unit.equipment_model }}</span>
+                    <span class="badge badge-light badge-pill ml-1">{{ unit.get_status_display }}</span>
+                    <span class="badge badge-dark  badge-pill ml-1">grąžinti reikia: {{ unit.returning_date }}</span>
+                </a>
+                {% endfor %}
+            </div>
+            {% include 'special_equipment/includes/paginator.html' %}
+        {% else %}
+        <div class="alert alert-info">
+            Neturite pasiėmę mūsų priemonių
+        </div>
+        {% endif %}
+    </div>
+{% endblock content %}
+
+{% block title %}Mano priemonės | {{ block.super }}{% endblock title %}

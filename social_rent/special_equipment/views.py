@@ -1,16 +1,17 @@
-from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.shortcuts import render, redirect, get_object_or_404 #, reverse
 from .models import Category, Type, EquipmentModel, EquipmentUnit
 from django.db.models import Q
 from django.views import generic
 from django.views.generic.edit import FormMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_protect
 from .forms import EquipmentModelReviewForm
 
-# from .forms import ModelReviewForm
+from django.urls import reverse, reverse_lazy
+
 
 @csrf_protect
 def register(request):
@@ -107,13 +108,44 @@ class EquipmentModelDetailView(generic.DetailView, FormMixin):
         form.save()
         return super().form_valid(form)
 
-
+## user equipments ->
 class LoanedEquipmentByPation(LoginRequiredMixin, generic.ListView):
     model = EquipmentUnit
-    context_object_name = 'equipment_unit_list' # pagal nutylejima butu equipmentunit_list
-    template_name = 'special_equipment/user_equipmentmodel_list.html'
+    context_object_name = 'equipmentunit_list' # 
+    template_name = 'special_equipment/user_equipment_list.html'
     paginate_by = 5
 
     def get_queryset(self):
         return super().get_queryset().filter(patient=self.request.user).filter(Q(status__exact='p') | Q(status__exact='r')).order_by('returning_date')
 
+
+class UnitsByUserDetailView(LoginRequiredMixin, generic.DetailView):
+    model = EquipmentUnit
+    template_name = 'special_equipment/user_unit_detail.html'
+
+
+class UnitsByUserCreateView(LoginRequiredMixin, generic.CreateView):
+    model = EquipmentUnit
+    fields = ('equipment_model', )
+    success_url = reverse_lazy('my_equpmentsurl')
+    template_name = 'special_equipment/user_unit_form.html'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['equipment_model'] = self.request.GET.get('unit_id')
+        return initial
+
+    def form_valid(self, form):
+        form.instance.patient = self.request.user
+        form.instance.status = 'r'
+        return super().form_valid(form)
+
+
+class UnitsByUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = EquipmentUnit
+    success_url = reverse_lazy('my_equipmentsurl')
+    template_name = 'special_equipment/user_unit_delete.html'
+
+    def test_func(self):
+        equipment_unit = self.get_object()
+        return equipment_unit.patient == self.request.user

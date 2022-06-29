@@ -23,19 +23,7 @@
         {% else %}
             <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{% static 'special_equipment/img/default-pic.png' %}">
         {% endif %}
-    
-
-
         </div>
-
-        {% comment %}
-    {% if equipmentmodel.pic %}
-        <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{{ equipmentmodel.pic.url }}">
-    {% else %}
-        <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{% static 'special_equipment/img/pav.jpg' %}">
-    {% endif %}
-    {% endcomment %}
-
 
     <p> <strong> Modelio aprašymas: </strong> {{ equipmentmodel.description|safe }}</p>
     <h3> Ar yra galimybė gauti "{{ equipmentmodel.model_name }}"? </h3>
@@ -59,6 +47,9 @@
     {% else %}
         <div class="alert alert-secondary">Dėl galimybės gauti šį modelį prašome teirautis telefonu</div>
     {% endif %}
+
+
+
     <h3>Atsiliepimai</h3>
     {% if equipmentmodel.model_comments.count > 0%}
         {% for comment in equipmentmodel.model_comments.all %}
@@ -81,8 +72,11 @@
             {{ form.content }}<br/>
             <input type="submit" value="išsaugoti" class="btn btn-primary">
         </form>
-    </div>
-    {% endif %}
+
 
     </div>
+    <a class="mt-1 btn btn-primary" href="{% url 'my_equipment_reservationurl' %}?unit_id={{ equipmentmodel.id }}">Rezervuoti</a>
+    {% endif %}
+
+</div>
 {% endblock content %}

@@ -23,7 +23,7 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'typesurl' %}">Visos rūšys</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'equipmentmodelsurl' %}">Visi modeliai</a></li>
                         {% if request.user.is_authenticated %}
-                        <li class="nav-item"><span class="nav-link">   &#129333; Jūs prisijungęs kaip {{ user.username }}</span></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'my_equipmentsurl' %}"> &#129333; {{ user.username }}, Jūsų priemonės</a></li>
                         {% if user.is_superuser or user.is_staff %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Labas, admine!</a></li>
                         {% endif %}

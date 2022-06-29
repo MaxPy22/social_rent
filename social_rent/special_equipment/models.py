@@ -65,7 +65,7 @@ class EquipmentModel(models.Model): # turimu priemoniu konkretus modeliai
 class EquipmentUnit(models.Model): # turimu priemoniu apskaitiniai vienetai
     id = models.UUIDField('inventorinis numeris', primary_key=True, default=uuid.uuid4, help_text='apskaitomam priemonės vienetui suteiktas unikalus inventorinis numeris', editable=False)
     notes = models.CharField(('pastabos'), max_length=224, null=True, default='-')
-    returning_date = models.DateField('perduota iki: ', null=True, blank=True, db_index=True)
+    returning_date = models.DateField('numatomas grąžinimas: ', null=True, blank=True, db_index=True)
     equipment_model = models.ForeignKey(EquipmentModel, on_delete=models.PROTECT, null=True, related_name='equipment_units', verbose_name='spec. priemonė')
     category = models.ForeignKey(Category, on_delete=models.PROTECT, null=True, related_name='equipment_units', verbose_name='kategorija')    
     patient = models.ForeignKey(User, on_delete=models.PROTECT, related_name= 'equipment_units', verbose_name=('pacientas'), null=True, blank=True, )
