@@ -10,14 +10,12 @@
                 </fieldset>
                 <fieldset class="form-group">
                     <button class="btn btn-danger" type="submit">TAIP</button>
-                    <a class="btn btn-success" href="{% url 'my_equipmenturl' object.id %}">NE, atgal</a>
+                    <a class="btn btn-success" href="{% url 'my_equipment' object.id %}">NE, atgal</a>
                 </fieldset>
             </form>
         {% else %}
             <div class="alert alert-secondary"> Klaidingas įrenginio rezervacijos statusas</div>
         {% endif %}
-    
     </div>
 {% endblock content %}
-    
 {% block title %}Rezervacijos atšaukimas | {{ block.super }}{% endblock title %}

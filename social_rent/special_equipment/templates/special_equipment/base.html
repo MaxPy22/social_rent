@@ -20,10 +20,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">{% block navigation %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Pradžia</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'typesurl' %}">Visos rūšys</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'equipmentmodelsurl' %}">Visi modeliai</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'types' %}">Visos rūšys</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'equipmentmodels' %}">Visi modeliai</a></li>
                         {% if request.user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'my_equipmentsurl' %}"> &#129333; {{ user.username }}, Jūsų priemonės</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'my_equipments' %}"> &#129333; {{ user.username }}, Jūsų priemonės</a></li>
                         {% if user.is_superuser or user.is_staff %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Labas, admine!</a></li>
                         {% endif %}

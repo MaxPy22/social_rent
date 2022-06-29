@@ -1,4 +1,5 @@
 {% extends 'special_equipment/base.html' %}
+{% load static %}
 {% block content %}
 <div class="container"> 
     <h1>VŠĮ "Neįgaliųjų centras"</h1>
@@ -9,5 +10,8 @@
         <li>Įvairios įrangos ir priemonių neįgaliesiems <strong>{{ num_units }}</strong></li>
         <li>Šiuo metu laisva (galima paimti) <strong>{{ num_units_available }}</strong></li>
     </ul>
+        <div>
+            <p> <img src="{% static 'special_equipment/img/default-pic.PNG'%}"/> </p>
+        </div>
 </div>
 {% endblock content %}

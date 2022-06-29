@@ -8,10 +8,7 @@
         <h2>Turima įranga ir spec. priemonės</h2>
         <div class="list-group">
         {% for equipment_unit in equipmentmodel.equipment_units.all %}
-            {# <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{% url 'equipmentmodelurl' equipment.id %}"></a>    #}
-            
             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="#">
-            
                 <span class="flex-grow-1">{{ equipment_unit.model_name }}</span>
                 <span class="badge badge-dark badge-pill ml-1">įrangos kiekis: {{ equipment_unit.equipment_units.count }}</span>
                 <span class="badge badge-success badge-pill ml-1">prieinamų: {{ equipment_unit.get_available_units }}</span>

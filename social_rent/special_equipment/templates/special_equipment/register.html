@@ -18,8 +18,7 @@
             <div class="form-group">
                 <label for="password">Slaptažodis</label>
                 <input name="password" type="password" class="form-control" id="password" aria-describedby="pwdHelp">
-                <small id="pwdHelp" class="form-text text-muted">Ne mažiau, kaip 8 simboliai. Negali būti vien tik
-                    skaičiai</small>
+                <small id="pwdHelp" class="form-text text-muted">Ne mažiau, kaip 8 simboliai. Negali būti vien tik skaičiai</small>
             </div>
             <div class="form-group">
                 <label for="password2">Pakartoti slaptažodį</label>
@@ -30,5 +29,4 @@
         <p>Jeigu užsiregistravote anksčiau, <a href="{% url 'login' %}"><strong>prisijunkite</strong></a>.</p>
     </div>
 {% endblock content %}
-
 {% block title %}Registracija | {{ block.super }}{% endblock title %}

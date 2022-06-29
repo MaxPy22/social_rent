@@ -58,6 +58,9 @@ def type(request, type_id):
     type = get_object_or_404(Type, pk=type_id)
     return render(request, 'special_equipment/type.html', {'type': type})
 
+def reservation_info(request,): 
+    return render(request, 'special_equipment/user_reservation_info.html', {'type': type})
+
 
 class EquipmentModelsListView(generic.ListView):
     model = EquipmentModel
@@ -88,7 +91,7 @@ class EquipmentModelDetailView(generic.DetailView, FormMixin):
     form_class = EquipmentModelReviewForm
 
     def get_success_url(self):
-        return reverse('equipmentmodelurl', kwargs={'pk': self.object.id })
+        return reverse('equipmentmodel', kwargs={'pk': self.object.id })
     
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -120,26 +123,9 @@ class UnitsByUserDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'special_equipment/user_unit_detail.html'
 
 
-class UnitsByUserCreateView(LoginRequiredMixin, generic.CreateView):
-    model = EquipmentUnit
-    fields = ('equipment_model', )
-    success_url = reverse_lazy('my_equipmentsurl')
-    template_name = 'special_equipment/user_unit_form.html'
-
-    def get_initial(self):
-        initial = super().get_initial()
-        initial['equipment_model'] = self.request.GET.get('unit_id')
-        return initial
-
-    def form_valid(self, form):
-        form.instance.patient = self.request.user
-        form.instance.status = 'r'
-        return super().form_valid(form)
-
-
 class UnitsByUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = EquipmentUnit
-    success_url = reverse_lazy('my_equipmentsurl')
+    success_url = reverse_lazy('my_equipments')
     template_name = 'special_equipment/user_unit_delete.html'
 
     def test_func(self):

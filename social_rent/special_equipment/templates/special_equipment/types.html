@@ -4,15 +4,14 @@
     <h1>RŪŠYS</h1>
     {% include 'special_equipment/includes/paginator_for_types.html' %}
     <div class="list-group my-3">
-    {% for type in types %}
-        <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{% url 'typeurl' type.id %}">
-        {{ type }}
-            <span class="badge badge-dark badge-pill">šios rūšies: {{ type.get_models_count }}</span>
-        </a>
-    {% endfor %}
+        {% for type in types %}
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{% url 'type' type.id %}">
+            {{ type }}
+                <span class="badge badge-dark badge-pill">šios rūšies: {{ type.get_models_count }}</span>
+            </a>
+        {% endfor %}
     </div>
     {% include 'special_equipment/includes/paginator_for_types.html' %}
 </div>
 {% endblock content %}
-
 {% block title %}rūšys | {{ block.super }}{% endblock title %}

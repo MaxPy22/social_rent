@@ -5,7 +5,7 @@
 {% block content %}
     <div class="container py-3">
         <h1>{{ equipmentmodel.model_name }}</h1>
-        <a href="{% url 'typeurl' equipmentmodel.type.id %}"><h2>{{ equipmentmodel.type }}</h2></a>
+        <a href="{% url 'type' equipmentmodel.type.id %}"><h2>{{ equipmentmodel.type }}</h2></a>
         <div class="d-flex p-2 bg-light small">
             {% if equipmentmodel.category.count > 0 %}
                 <span class="flex-shrink-1"> <strong> Kategorijos: </strong> </span>
@@ -17,65 +17,62 @@
             {% endif %}
         </div>
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px--mb-3 bg-rgba(179, 176, 228, 0.8) border bottom shadow-sm">
-        
-        {% if equipmentmodel.pic %}
-            <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{{ equipmentmodel.pic.url }}">
-        {% else %}
-            <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{% static 'special_equipment/img/default-pic.png' %}">
-        {% endif %}
+            {% if equipmentmodel.pic %}
+                <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{{ equipmentmodel.pic.url }}">
+            {% else %}
+                <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{% static 'special_equipment/img/default-pic.png' %}">
+            {% endif %}
         </div>
-
-    <p> <strong> Modelio aprašymas: </strong> {{ equipmentmodel.description|safe }}</p>
-    <h3> Ar yra galimybė gauti "{{ equipmentmodel.model_name }}"? </h3>
-    {% if equipmentmodel.equipment_units.count > 0 %}
-        <div class="list-group">
-            {% for model_unit in equipmentmodel.equipment_units.all %}
-            <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                <span class="flex-grow-1"> Įrenginio numeris: {{ model_unit.id }}</span>
-                <span class="badge 
-                {% if model_unit.status == 'ok' %}badge-success
-                {% elif model_unit.status == 'kt' %}badge-secondary
-                {% elif model_unit.status == 'r' %}badge-danger
-                {% else %}badge-warning{% endif %}
-                badge-pill ml-1">{{ model_unit.get_status_display }}</span>
-                {% if model_unit.status == 'p' %}
-                <span class="ml-2">bus grąžinta: {{ model_unit.returning_date }}</span>
-                {% endif %}
-                {% if user.is_authenticated %}
-                    {% if model_unit.status == 'ok' %}
-                    <a class="mt-1 btn btn-primary" href="{% url 'my_equipment_reservationurl' %}?unit_id={{ equipmentmodel.id }}">Rezervuoti</a>
+        <p> <strong> Modelio aprašymas: </strong> {{ equipmentmodel.description|safe }}</p>
+        <h3> Ar yra galimybė gauti "{{ equipmentmodel.model_name }}"? </h3>
+        {% if equipmentmodel.equipment_units.count > 0 %}
+            <div class="list-group">
+                {% for model_unit in equipmentmodel.equipment_units.all %}
+                <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <span class="flex-grow-1"> Įrenginio numeris: {{ model_unit.id }}</span>
+                    <span class="badge 
+                    {% if model_unit.status == 'ok' %}badge-success
+                    {% elif model_unit.status == 'kt' %}badge-secondary
+                    {% elif model_unit.status == 'r' %}badge-danger
+                    {% else %}badge-warning{% endif %}
+                    badge-pill ml-1">{{ model_unit.get_status_display }}</span>
+                    {% if model_unit.status == 'p' %}
+                    <span class="ml-2">numatomas grąžinimas: {{ model_unit.returning_date }}</span>
                     {% endif %}
-                {% endif %}
+                    {% if user.is_authenticated %}
+                        {% if model_unit.status == 'ok' %}
+                        <a class="mt-1 btn btn-primary" href="{% url 'reservation' %}">Rezervuoti</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-secondary">Dėl galimybės gauti šį modelį prašome teirautis telefonu arba klientų aptarnavimo skyriuose</div>
+        {% endif %}
+        <h3>Atsiliepimai</h3>
+        {% if equipmentmodel.model_comments.count > 0%}
+            {% for comment in equipmentmodel.model_comments.all %}
+            <div class="card">
+                <div class="card-body">
+                    <span class="text-muted float-right">{{ comment.created_at }}</span>
+                    <h5 class="card-title">{{ comment.commentator }}</h5>
+                    {{ comment.content|safe }}
+                </div>
             </div>
             {% endfor %}
-        </div>
-    {% else %}
-        <div class="alert alert-secondary">Dėl galimybės gauti šį modelį prašome teirautis telefonu</div>
-    {% endif %}
-
-    <h3>Atsiliepimai</h3>
-    {% if equipmentmodel.model_comments.count > 0%}
-        {% for comment in equipmentmodel.model_comments.all %}
-        <div class="card">
-            <div class="card-body">
-                <span class="text-muted float-right">{{ comment.created_at }}</span>
-                <h5 class="card-title">{{ comment.commentator }}</h5>
-                {{ comment.content|safe }}
+        {% else %}
+            <div class="alert alert-secondary"> Apie šį modelį atsiliepimų nėra </div>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <div class="FieldWrapper">
+                <h4>Palikite Atsiliepimą</h4>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    {{ form.content }}<br/>
+                    <input type="submit" value="išsaugoti" class="btn btn-primary">
+                </form>
             </div>
-        </div>
-        {% endfor %}
-    {% else %}
-        <div class="alert alert-secondary"> Apie šį modelį atsiliepimų nėra </div>
-    {% endif %}
-    {% if user.is_authenticated %}
-    <div class="FieldWrapper">
-        <h4>Palikite Atsiliepimą</h4>
-        <form method="post" action="">
-            {% csrf_token %}
-            {{ form.content }}<br/>
-            <input type="submit" value="išsaugoti" class="btn btn-primary">
-        </form>
-    </div>
-    {% endif %}
+        {% endif %}
 </div>
 {% endblock content %}

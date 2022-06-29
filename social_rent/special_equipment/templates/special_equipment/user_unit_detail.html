@@ -1,7 +1,7 @@
 {% extends 'special_equipment/base.html' %}
 {% block content %}
     <div class="container py-3">
-        <h2>Mano <a href="{% url 'equipmentmodelurl' object.equipment_model.id %}">{{ object.equipment_model }}</a> paimta priemonė</h2>
+        <h2>Mano <a href="{% url 'equipmentmodel' object.equipment_model.id %}">{{ object.equipment_model }}</a> paimta priemonė</h2>
         <span>ID: {{ object.id }}</span>
         <div class="list-group">
             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{% url 'cancel_my_reservation' object.id %}">
