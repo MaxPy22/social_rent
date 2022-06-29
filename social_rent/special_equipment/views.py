@@ -123,7 +123,7 @@ class UnitsByUserDetailView(LoginRequiredMixin, generic.DetailView):
 class UnitsByUserCreateView(LoginRequiredMixin, generic.CreateView):
     model = EquipmentUnit
     fields = ('equipment_model', )
-    success_url = reverse_lazy('my_equpmentsurl')
+    success_url = reverse_lazy('my_equipmentsurl')
     template_name = 'special_equipment/user_unit_form.html'
 
     def get_initial(self):

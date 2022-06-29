@@ -8,10 +8,9 @@
                 {{ form }}
             </fieldset>
             <fieldset class="form-group">
-                <button class="btn btn-primary" type="submit">Pasiimti/Atnaujinti</button>
-                {% if object %}
-                    <a class="btn btn-danger" href="{% url 'my_unit_delete' object.id %}">grąžinti</a>
-                {% endif %}
+
+                <button class="btn btn-primary" type="submit">Rezervuoti</button>
+
             </fieldset>
         </form>
     </div>

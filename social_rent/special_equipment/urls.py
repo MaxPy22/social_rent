@@ -12,5 +12,5 @@ urlpatterns = [
     path('my_equipments/', views.LoanedEquipmentByPation.as_view(), name='my_equipmentsurl'),
     path('my_equipment/<uuid:pk>/', views.UnitsByUserDetailView.as_view(), name='my_equipmenturl'),
     path('my_equipment/reservation/', views.UnitsByUserCreateView.as_view(), name='my_equipment_reservationurl'),
-    path('my_equipment/cancellation/<uuid:pk>/', views.UnitsByUserDeleteView.as_view(), name='my_equipment_cancellationurl'),
+    path('my_equipment/cancellation/<uuid:pk>/', views.UnitsByUserDeleteView.as_view(), name='cancel_my_reservation'),
 ]
