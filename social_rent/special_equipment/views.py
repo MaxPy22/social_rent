@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404 #, reverse
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Category, Type, EquipmentModel, EquipmentUnit
 from django.db.models import Q
 from django.views import generic
@@ -9,19 +9,16 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_protect
 from .forms import EquipmentModelReviewForm
-
 from django.urls import reverse, reverse_lazy
 
 
 @csrf_protect
 def register(request):
     if request.method == "POST":
-        # duomenu surinkimas
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
-        # validuosim forma, tikrindami ar sutampa slaptažodžiai, ar egzistuoja vartotojas
         error = False
         if not password or password != password2:
             messages.error(request, 'Slaptažodžiai nesutampa arba neįvesti.')
@@ -64,7 +61,7 @@ def type(request, type_id):
 
 class EquipmentModelsListView(generic.ListView):
     model = EquipmentModel
-    context_object_name = 'equipment_models_list' # pagal nutylejima butu equipmentmodel_list
+    context_object_name = 'equipment_models_list'
     template_name = 'special_equipment/equipmentmodels_list.html'
     extra_context = {'spalva': '#fc0'}
     paginate_by = 10
@@ -75,7 +72,6 @@ class EquipmentModelsListView(generic.ListView):
             search_text = self.request.GET.get('search_name')
             queryset = queryset.filter(
                 Q(model_name__icontains=search_text) |
-                # Q(summary__icontains=search) |
                 Q(type__type_title__icontains=search_text)
             )
         return queryset
@@ -108,10 +104,10 @@ class EquipmentModelDetailView(generic.DetailView, FormMixin):
         form.save()
         return super().form_valid(form)
 
-## user equipments ->
+
 class LoanedEquipmentByPation(LoginRequiredMixin, generic.ListView):
     model = EquipmentUnit
-    context_object_name = 'equipmentunit_list' # 
+    context_object_name = 'equipmentunit_list'
     template_name = 'special_equipment/user_equipment_list.html'
     paginate_by = 5
 

@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from tinymce.models import HTMLField
 from datetime import date
 
-# from django.utils.translation import gettext_lazy as _
-
 
 class Category(models.Model): # priemoniu kategorijos
     category_title = models.CharField('Spec. priemonių kategorijos', max_length=156, help_text='nurodyti kateogoriją (pvz. judėjimo, higienos reikmenys ir t.t.)')
@@ -27,7 +25,6 @@ class Type(models.Model): # priemoniu rusys/tipai
     def __str__(self):
         return self.type_title
 
-        
     def get_models_count(self):
         return self.equipment_models.count()
     get_models_count.short_description = 'bendras skirtingų modelių kiekis'
@@ -40,7 +37,7 @@ class Type(models.Model): # priemoniu rusys/tipai
 
 class EquipmentModel(models.Model): # turimu priemoniu konkretus modeliai
     model_name = models.CharField('gaminio modelio pavadinimas', max_length=156)
-    description = HTMLField('arašymas,pagrindinės modelio savybės', help_text='svarbiausia informacija apie gaminį', default='informacija tikslinama')
+    description = models.CharField('arašymas,pagrindinės modelio savybės', max_length=156, help_text='svarbiausia informacija apie gaminį', default='informacija tikslinama')
     pic = models.ImageField('gaminio foto', upload_to='special_equipment/pics', null=True, blank=True)
     type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True, related_name='equipment_models', verbose_name='priemonės rūšis')
     category = models.ManyToManyField(Category, related_name='equipment_models', verbose_name='Kategorija', help_text='nurodykit priemonės kategoriją')
@@ -81,23 +78,21 @@ class EquipmentUnit(models.Model): # turimu priemoniu apskaitiniai vienetai
 
     status = models.CharField('prieinamumas', max_length=2, choices=AVAILABILITY, blank=True, default='ok', db_index=True)
 
-    # def patient_name(self):
-    #     return self.patient.first_name
-    
     def __str__(self):
         return f'{str(self.equipment_model.model_name)} - {str(self.id)}'
 
-    # @property
-    # def is_overdue(self):
-    #     if self.due_back and self.due_back < date.today():
-    #         return True
-    #     return False
-
+    @property
+    def after_returning_date(self):
+        if self.returning_date and self.returning_date < date.today():
+            return True
+        return False
+        
 
     class Meta:
         ordering = ['returning_date']
         verbose_name = 'spec. priemonės vienetas'
         verbose_name_plural = 'spec. priemonių atsargos'
+
 
 class EquipmentModelComment(models.Model):
     equipment_model = models.ForeignKey(
@@ -119,7 +114,6 @@ class EquipmentModelComment(models.Model):
 
     def __str__(self):
         return f'{self.equipment_model} - {self.commentator} - {self.created_at}'
-
 
     class Meta:
         ordering = ['created_at']

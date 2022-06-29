@@ -5,7 +5,7 @@ from .models import Category, Type, EquipmentModel, EquipmentUnit, EquipmentMode
 class TypeAdmin(admin.ModelAdmin):
     list_display = ('type_title', 'get_models_count', )
     list_display_links = ('type_title', )
-    search_fields = ('type_title', ) #, 'category', )
+    search_fields = ('type_title', )
 
 
 class EquipmentUnitInline(admin.TabularInline):
@@ -21,20 +21,11 @@ class EquipmentModelAdmin(admin.ModelAdmin):
 
 
 class EquipmentUnitAdmin(admin.ModelAdmin):
-
-    # def user_details(*args, **kwargs):
-    #     user_info = self.request.user
-
-    # def get_queryset(self):
-    #     user_info = super().get_queryset().self.request.user.full_name
-
-    
-
-    list_display = ('equipment_model', 'id', 'status', 'returning_date', 'notes', 'patient', ) # 'get_name') # 'patient')
+    list_display = ('equipment_model', 'id', 'status', 'returning_date', 'after_returning_date', 'notes', 'patient', )
     list_filter = ('status','returning_date', )
-    search_fields = ('equipment_model__model_name', 'patient__username' )
+    search_fields = ('equipment_model__model_name', 'patient__username', )
     readonly_fields = ('id', )
-    list_editable = ('status', 'returning_date', 'patient', )  # leidzia redaguoti isrinktus laukus prie bendro elementu saraso
+    list_editable = ('status', 'returning_date', 'patient', )
 
     fieldsets = (
         ('Pagrindinė Informacija', {'fields': (
@@ -42,15 +33,19 @@ class EquipmentUnitAdmin(admin.ModelAdmin):
                 ('status', 'returning_date', )
             )}),
         ('Kita informacija', {'fields': (
-                ('patient', 'notes',)
+                ('patient', 'notes', )
             )}),
 )
 
-    # def get_name(self, obj): # funkciją gali vadint kaip nori, svarbu būtų self ir obj
-    #     return obj.patient.first_name # čia turi nurodyti tikslų kelią iki paciento vardo
+
+class EquipmentModelCommentAdmin(admin.ModelAdmin):
+    list_display = ('commentator', 'content', 'id', 'created_at', )
+    list_filter = ('commentator','created_at', )
+    search_fields = ('commentator', 'content', )
+
 
 admin.site.register(Category)
 admin.site.register(Type, TypeAdmin)
 admin.site.register(EquipmentModel, EquipmentModelAdmin)
 admin.site.register(EquipmentUnit, EquipmentUnitAdmin)
-admin.site.register(EquipmentModelComment)
+admin.site.register(EquipmentModelComment, EquipmentModelCommentAdmin)

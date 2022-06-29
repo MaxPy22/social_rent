@@ -10,8 +10,6 @@ urlpatterns = [
     path('equipmentmodel/<int:pk>/', views.EquipmentModelDetailView.as_view(), name='equipmentmodelurl'),
     path('register/', views.register, name='register'),
     path('my_equipments/', views.LoanedEquipmentByPation.as_view(), name='my_equipmentsurl'),
-
-
     path('my_equipment/<uuid:pk>/', views.UnitsByUserDetailView.as_view(), name='my_equipmenturl'),
     path('my_equipment/reservation/', views.UnitsByUserCreateView.as_view(), name='my_equipment_reservationurl'),
     path('my_equipment/cancellation/<uuid:pk>/', views.UnitsByUserDeleteView.as_view(), name='my_equipment_cancellationurl'),

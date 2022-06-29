@@ -7,7 +7,7 @@
             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{% url 'my_equipment_cancellationurl' object.id %}">
                 <span class="flex-grow-1">{{ object.equipment_model }}</span>
                 <span class="badge badge-light badge-pill ml-1">{{ object.get_status_display }}</span>
-                <span class="badge {% if object.is_overdue %}badge-danger{% else %}badge-dark{% endif %} badge-pill ml-1">grąžinti reikia: {{ object.returning_date }}</span>
+                <span class="badge {% if object.after_returning_date %}badge-danger{% else %}badge-secondary{% endif %} badge-pill ml-1">grąžinti reikia: {{ object.returning_date }}</span>
             
         </div>
     </div>
